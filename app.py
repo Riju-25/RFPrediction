@@ -46,7 +46,7 @@ elif page == "Predict Rainfall":
     if st.button("🌧️ Predict Rainfall", key="predict"):
         # Prepare input data
         input_data = np.array([[pressure, dewpoint, humidity, cloud, sunshine, winddirection, windspeed]])
-        
+        input_data = input_data.reshape(1, -1)
         # Make prediction
         prediction = model.predict(input_data)
         
