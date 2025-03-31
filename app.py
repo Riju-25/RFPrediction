@@ -1,10 +1,11 @@
 import streamlit as st
 import pickle
 import numpy as np
+import joblib
+model = joblib.load("model.pkl")
 
-# Load the trained model
-with open("rainfall_prediction_model.pkl", "rb") as model_file:
-    model = pickle.load(model_file)
+#with open("rainfall_prediction_model.pkl", "rb") as model_file:
+#    model = pickle.load(model_file)
 
 # Set Streamlit page config
 st.set_page_config(page_title="Rainfall Prediction App", page_icon="🌧️", layout="wide")
