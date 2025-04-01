@@ -1,4 +1,8 @@
+pandas
 streamlit
 numpy
 scikit-learn
 pickle-mixin
+matplotlib
+seaborn
+sklearn
