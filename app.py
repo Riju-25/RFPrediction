@@ -1,7 +1,8 @@
 import streamlit as st
 import pickle
-import numpy as np
+import pandas as pd
 
+# Load the trained model
 with open("rainfall_prediction_model.pkl", "rb") as model_file:
     model = pickle.load(model_file)
 
@@ -43,11 +44,12 @@ elif page == "Predict Rainfall":
     
     # Predict button
     if st.button("🌧️ Predict Rainfall", key="predict"):
-        # Prepare input data
-        input_data = np.array([[pressure, dewpoint, humidity, cloud, sunshine, winddirection, windspeed]])
-        input_data = input_data.reshape(1, -1)
+        # Prepare input data as a pandas DataFrame
+        input_df = pd.DataFrame([[pressure, dewpoint, humidity, cloud, sunshine, winddirection, windspeed]],
+                                columns=['pressure', 'dewpoint', 'humidity', 'cloud', 'sunshine', 'winddirection', 'windspeed'])
+        
         # Make prediction
-        prediction = model.predict(input_data)
+        prediction = model.predict(input_df)
         
         # Display result
         st.success(f"Predicted Rainfall: {prediction[0]:.2f} mm")
