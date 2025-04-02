@@ -61,12 +61,16 @@ elif page == "Predict Rainfall":
         # Prepare input data as a pandas DataFrame
         input_df = pd.DataFrame([[pressure, dewpoint, humidity, cloud, sunshine, winddirection, windspeed]],
                                 columns=['pressure', 'dewpoint', 'humidity', 'cloud', 'sunshine', 'winddirection', 'windspeed'])
-        
+    
         # Make prediction
         prediction = model.predict(input_df)
-        
+    
+        # Convert 0/1 to "Yes" or "No"
+        rainfall_result = "Yes" if prediction[0] == 1 else "No"
+    
         # Display result
-        st.success(f"Predicted Rainfall: {prediction[0]:.2f} mm")
+        st.success(f"Prediction Result: {rainfall_result}")
+
 
 # About Model Page
 elif page == "About Model":
