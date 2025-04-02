@@ -4,7 +4,7 @@ import pandas as pd
 
 # Load the trained model
 try:
-    with open("rainfall_prediction_model(1).pkl", "rb") as model_file:
+    with open("rainfall_prediction_model (1).pkl", "rb") as model_file:
         model_data = pickle.load(model_file)  # Load the dictionary
 
     model = model_data.get("model")  # Extract the actual model
