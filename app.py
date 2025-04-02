@@ -3,8 +3,23 @@ import pickle
 import pandas as pd
 
 # Load the trained model
-with open("rainfall_prediction_model (1).pkl", "rb") as model_file:
-    model = pickle.load(model_file)
+try:
+    with open("rainfall_prediction_model.pkl", "rb") as model_file:
+        model_data = pickle.load(model_file)  # Load the dictionary
+
+    model = model_data.get("model")  # Extract the actual model
+    feature_names = model_data.get("feature_names", [])  # Get feature names
+
+    if not model or not hasattr(model, "predict"):
+        st.error("⚠️ Model could not be loaded. Please retrain and save a valid model.")
+        st.stop()
+except Exception as e:
+    st.error(f"⚠️ Error loading model: {str(e)}")
+    st.stop()
+
+# Ensure model is correctly loaded before proceeding
+st.success("✅ Model loaded successfully!")
+
 
 # Set Streamlit page config
 st.set_page_config(page_title="Rainfall Prediction App", page_icon="🌧️", layout="wide")
