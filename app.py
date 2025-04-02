@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 
 # Load the trained model
-with open("rainfall_prediction_model.pkl(1)", "rb") as model_file:
+with open("rainfall_prediction_model.pkl (1)", "rb") as model_file:
     model = pickle.load(model_file)
 
 # Set Streamlit page config
