@@ -2,6 +2,9 @@ import streamlit as st
 import pickle
 import pandas as pd
 
+# Set Streamlit page config
+st.set_page_config(page_title="Rainfall Prediction App", page_icon="🌧️", layout="wide")
+
 # Load the trained model
 try:
     with open("rainfall_prediction_model (1).pkl", "rb") as model_file:
@@ -19,10 +22,6 @@ except Exception as e:
 
 # Ensure model is correctly loaded before proceeding
 st.success("✅ Model loaded successfully!")
-
-
-# Set Streamlit page config
-st.set_page_config(page_title="Rainfall Prediction App", page_icon="🌧️", layout="wide")
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
