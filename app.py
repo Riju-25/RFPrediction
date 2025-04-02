@@ -4,17 +4,14 @@ import pandas as pd
 
 # Load the trained model
 with open("rainfall_prediction_model.pkl", "rb") as model_file:
-    model_data = pickle.load(model_file)  # model_data is a dictionary
-
-# Extract only the model
-model = model_data.get("model", None)
+    model = pickle.load(model_file)  # Directly load the model
 
 # Ensure the model is correctly loaded
-if not model or not hasattr(model, "predict"):
+if model is None or not hasattr(model, "predict"):
     raise ValueError("Loaded object is not a valid model. Ensure the .pkl file is correctly saved.")
 
 # Set Streamlit page config
-st.set_page_config(page_title="Rainfall Prediction App", page_icon="🌧️", layout="wide")
+st.set_page_config(page_title="Rainfall Prediction App", page_icon="☔️", layout="wide")
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
@@ -22,12 +19,12 @@ page = st.sidebar.radio("Go to", ["Home", "Predict Rainfall", "About Model"])
 
 # Home Page
 if page == "Home":
-    st.title("🌦️ Welcome to the Rainfall Prediction App")
+    st.title("⛆️ Welcome to the Rainfall Prediction App")
     st.write(
         "This application uses a **Random Forest Classifier** model to predict rainfall "
         "based on meteorological parameters like pressure, humidity, cloud cover, wind conditions, and more."
     )
-    st.image("https://source.unsplash.com/800x400/?rain,clouds", use_column_width=True)
+    st.image("https://source.unsplash.com/800x400/?rain,clouds", use_container_width=True)
     st.markdown("---")
     st.subheader("How It Works?")
     st.write("Simply navigate to the **Predict Rainfall** section, enter the required parameters, and get an instant rainfall prediction.")
@@ -50,7 +47,7 @@ elif page == "Predict Rainfall":
         windspeed = st.number_input("Wind Speed (km/h)", value=10.0)
     
     # Predict button
-    if st.button("🌧️ Predict Rainfall", key="predict"):
+    if st.button("☔️ Predict Rainfall", key="predict"):
         # Prepare input data as a pandas DataFrame
         input_df = pd.DataFrame([[pressure, dewpoint, humidity, cloud, sunshine, winddirection, windspeed]],
                                 columns=['pressure', 'dewpoint', 'humidity', 'cloud', 'sunshine', 'winddirection', 'windspeed'])
@@ -59,7 +56,10 @@ elif page == "Predict Rainfall":
         prediction = model.predict(input_df)
         
         # Display result
-        st.success(f"Predicted Rainfall: {prediction[0]:.2f} mm")
+        if prediction[0] > 0:
+            st.success(f"☔️ Expected Rainfall: {prediction[0]:.2f} mm")
+        else:
+            st.info("☀️ No significant rainfall expected.")
 
 # About Model Page
 elif page == "About Model":
@@ -93,7 +93,7 @@ elif page == "About Model":
              "✔️ Works well with missing data and noisy inputs\n"
              "✔️ Provides feature importance insights")
     
-    st.image("https://source.unsplash.com/800x400/?forest,trees", use_column_width=True)
+    st.image("https://source.unsplash.com/800x400/?forest,trees", use_container_width=True)
 
 st.sidebar.markdown("---")
 st.sidebar.write("Developed with ❤️ using Streamlit")
