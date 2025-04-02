@@ -4,7 +4,14 @@ import pandas as pd
 
 # Load the trained model
 with open("rainfall_prediction_model.pkl", "rb") as model_file:
-    model = pickle.load(model_file)
+    model_data = pickle.load(model_file)  # model_data is a dictionary
+
+# Extract only the model
+model = model_data.get("model", None)
+
+# Ensure the model is correctly loaded
+if not model or not hasattr(model, "predict"):
+    raise ValueError("Loaded object is not a valid model. Ensure the .pkl file is correctly saved.")
 
 # Set Streamlit page config
 st.set_page_config(page_title="Rainfall Prediction App", page_icon="🌧️", layout="wide")
